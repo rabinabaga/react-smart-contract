@@ -5,6 +5,7 @@ import { BrowserProvider } from "ethers";
 
 const ContractInteraction = () => {
   const [contractResponse, setContractResponse] = useState(null);
+  const [contractSumResponse, setContractSumResponse] = useState(null);
   const [account, setAccount] = useState(null);
   const [error, setError] = useState(null);
 
@@ -55,8 +56,12 @@ const ContractInteraction = () => {
       const response = await contract.helloWorld(); // Replace `helloWorld` with your actual contract function
       console.log("Contract response:", response);
 
+      const responseSum = await contract.sum(2, 3); // Replace `helloWorld` with your actual contract function
+      console.log("Contract response:", responseSum);
+
       // Save the response in the state
       setContractResponse(response);
+      setContractSumResponse(responseSum);
     } catch (err) {
       console.error("Error interacting with contract:", err);
       setError(err.message);
@@ -70,6 +75,11 @@ const ContractInteraction = () => {
       {account && <p>Connected Account: {account}</p>}
       <button onClick={interactWithContract}>Call Contract Function</button>
       {contractResponse && <p>Contract Response: {contractResponse}</p>}
+      {error && <p style={{ color: "red" }}>Error: {error}</p>}
+
+      {contractSumResponse && (
+        <p>Contract Sum Response: {contractSumResponse.toString()}</p>
+      )}
       {error && <p style={{ color: "red" }}>Error: {error}</p>}
     </div>
   );
